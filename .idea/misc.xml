@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/DATA/PROGRA MOVIL/WORK31/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.20925925925925926" />
+        <entry key="..\:/DATA/PROGRA MOVIL/WORK31/app/src/main/res/drawable/ic_launcher_background.xml" value="0.20925925925925926" />
+        <entry key="..\:/DATA/PROGRA MOVIL/WORK31/app/src/main/res/layout-land/activity_login.xml" value="0.19218955682316805" />
+        <entry key="..\:/DATA/PROGRA MOVIL/WORK31/app/src/main/res/layout/activity_login.xml" value="0.22" />
+        <entry key="..\:/DATA/PROGRA MOVIL/WORK31/app/src/main/res/layout/activity_main.xml" value="0.11413043478260869" />
+        <entry key="..\:/DATA/PROGRA MOVIL/WORK31/app/src/main/res/layout/fragment_detallepokemon.xml" value="0.20416666666666666" />
+        <entry key="..\:/DATA/PROGRA MOVIL/WORK31/app/src/main/res/layout/fragment_favoritos.xml" value="0.22" />
+        <entry key="..\:/DATA/PROGRA MOVIL/WORK31/app/src/main/res/layout/fragment_pokemon_favoritos.xml" value="0.1" />
+        <entry key="..\:/DATA/PROGRA MOVIL/WORK31/app/src/main/res/layout/fragment_pokemons.xml" value="0.1" />
+        <entry key="..\:/DATA/PROGRA MOVIL/WORK31/app/src/main/res/layout/item_favorito.xml" value="0.3583208395802099" />
+        <entry key="..\:/DATA/PROGRA MOVIL/WORK31/app/src/main/res/layout/item_pokemon.xml" value="0.2" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

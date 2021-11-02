@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#DAF7A6"
+        android:scaleType="fitXY"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imagePokemon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            android:src="@mipmap/ic_launcher"
+            android:layout_margin="10dp"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="4">
+
+            <TextView
+                android:id="@+id/txtNombrePokemon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="8dp"
+                android:text="TextView"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/txtVida"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="8dp"
+                android:text="HP : "
+                android:textColor="@color/black"
+                android:textSize="11sp" />
+            <TextView
+                android:id="@+id/txtAtaque"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="8dp"
+                android:text="Attack : "
+                android:textColor="@color/black"
+                android:textSize="11sp" />
+            <TextView
+                android:id="@+id/txtDefensa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="8dp"
+                android:text="Defense : "
+                android:textColor="@color/black"
+                android:textSize="11sp" />
+            <TextView
+                android:id="@+id/txtEspecial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="8dp"
+                android:text="Especial attack : "
+                android:textColor="@color/black"
+                android:textSize="11sp" />
+            <TextView
+                android:id="@+id/txtDefensaEspecial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="8dp"
+                android:text="Especial defense : "
+                android:textColor="@color/black"
+                android:textSize="11sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
