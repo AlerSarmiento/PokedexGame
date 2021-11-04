@@ -13,12 +13,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pe.edu.ulima.pm.work31.R
 import pe.edu.ulima.pm.work31.adapter.PokemonListAdapter
-import pe.edu.ulima.pm.work31.model.Pokemon
-import pe.edu.ulima.pm.work31.model.PokemonManager
+import pe.edu.ulima.pm.work31.model.*
 
-class PokemonsFragment(val pokedex: List<Pokemon>): Fragment() {
+class PokemonsFragment(): Fragment() {
     interface OnPokemonSelectedListener {
-        fun onSelect(pokemon: Pokemon)
+        fun onSelect(pokemon: PokemonData)
     }
 
     private var listener : OnPokemonSelectedListener?=null
@@ -41,7 +40,7 @@ class PokemonsFragment(val pokedex: List<Pokemon>): Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recycListadoPokemon= view.findViewById<RecyclerView>(R.id.recycListaPokemons)
+
 //        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
 //            recycListadoPokemon.layoutManager = GridLayoutManager(context, 2)
 //            Toast.makeText(context,"RAAA",Toast.LENGTH_LONG).show()
@@ -51,12 +50,21 @@ class PokemonsFragment(val pokedex: List<Pokemon>): Fragment() {
 //            Toast.makeText(context,"GG",Toast.LENGTH_LONG).show()
 //        }
 
-        recycListadoPokemon.adapter = PokemonListAdapter(pokedex,
-            this
-        ) {
-                pokemon: Pokemon ->
-            Log.i("PokemonFragment",pokemon.name)
-            listener?.onSelect(pokemon)
-        }
+        PokemonManagerAPI().getPokemonesRetrofit(30,{ pokedex : PokemonRespuesta ->
+            val recycListadoPokemon= view.findViewById<RecyclerView>(R.id.recycListaPokemons)
+            recycListadoPokemon.adapter = PokemonListAdapter(
+                pokedex.results,
+                this
+            ) {
+                    pokemon: PokemonData ->
+                Log.i("PokemonFragment",pokemon.name)
+                listener?.onSelect(pokemon)
+            }
+
+        },{
+
+        })
+
+
     }
 }

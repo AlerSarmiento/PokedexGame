@@ -1,8 +1,10 @@
 package pe.edu.ulima.pm.work31.model
 
 import android.content.ContentValues.TAG
+import android.os.Looper
 import android.util.Log
 import android.widget.Toast
+import androidx.core.os.HandlerCompat
 import pe.edu.ulima.pm.work31.network.APIPokemonService
 import retrofit2.Call
 import retrofit2.Callback
@@ -15,6 +17,9 @@ class PokemonManagerAPI {
     val API_URL = "https://pokeapi.co/api/v2/"
 //callbackOK: (List<PokemonData>),
 //    callbackError:(String)
+
+
+
     fun getPokemonesRetrofit(a:Int, callbackOK : (PokemonRespuesta) -> Unit, callbackError : (String) -> Unit){
 
 
@@ -25,13 +30,13 @@ class PokemonManagerAPI {
 
     val service = retrofit!!.create(APIPokemonService::class.java)
 
-        service.getPokemones(0,a).enqueue(object : Callback<PokemonRespuesta> {
+
+        service.getPokemones(a,0).enqueue(object : Callback<PokemonRespuesta> {
             override fun onResponse(
                 call: Call<PokemonRespuesta>,
                 response: Response<PokemonRespuesta>
             ) {
                 callbackOK(response.body()!!)
-
             }
 
             override fun onFailure(call: Call<PokemonRespuesta>, t: Throwable) {

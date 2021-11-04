@@ -12,11 +12,12 @@ import pe.edu.ulima.pm.work31.R
 import pe.edu.ulima.pm.work31.adapter.FavoritoListAdapter
 import pe.edu.ulima.pm.work31.adapter.PokemonListAdapter
 import pe.edu.ulima.pm.work31.model.Pokemon
+import pe.edu.ulima.pm.work31.model.PokemonData
 import pe.edu.ulima.pm.work31.model.PokemonManager
 
-class FavoritoFragment(val favoritos: List<Pokemon>):Fragment() {
+class FavoritoFragment(val favoritos: List<PokemonData>):Fragment() {
     interface OnSelectFavorite{
-        fun onDelete(pokemon: Pokemon)
+        fun onDelete(pokemon: PokemonData)
     }
 
     private var listener : OnSelectFavorite?=null
@@ -43,7 +44,7 @@ class FavoritoFragment(val favoritos: List<Pokemon>):Fragment() {
         recycFavoritos.adapter = FavoritoListAdapter(
             favoritos,
         ) {
-                pokemon: Pokemon ->
+                pokemon: PokemonData ->
             Log.i("FavoritoFragment",pokemon.name)
             listener?.onDelete(pokemon)
         }

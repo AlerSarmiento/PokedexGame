@@ -9,13 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import pe.edu.ulima.pm.work31.R
 import pe.edu.ulima.pm.work31.model.Pokemon
+import pe.edu.ulima.pm.work31.model.PokemonData
 
 class FavoritoListAdapter(
-    private val favoritosList : List<Pokemon>,
-    private val listener : (Pokemon)->Unit
+    private val favoritosList : List<PokemonData>,
+    private val listener : (PokemonData)->Unit
 ): RecyclerView.Adapter<FavoritoListAdapter.ViewHolder>() {
 
-    class ViewHolder(view: View, val listener : (Pokemon) -> Unit, val favoritosList: List<Pokemon>):
+    class ViewHolder(view: View, val listener : (PokemonData) -> Unit, val favoritosList: List<PokemonData>):
         RecyclerView.ViewHolder(view), View.OnClickListener
     {
 

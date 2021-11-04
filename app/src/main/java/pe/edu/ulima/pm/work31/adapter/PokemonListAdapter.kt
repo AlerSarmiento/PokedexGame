@@ -5,21 +5,27 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import pe.edu.ulima.pm.work31.R
 import com.bumptech.glide.Glide
 import pe.edu.ulima.pm.work31.adapter.PokemonListAdapter.ViewHolder
+import pe.edu.ulima.pm.work31.model.Apivarible
 import pe.edu.ulima.pm.work31.model.Pokemon
+import pe.edu.ulima.pm.work31.model.PokemonData
+import pe.edu.ulima.pm.work31.model.PokemonManagerAPI
 
 class PokemonListAdapter(
-    private val pokemonList: List<Pokemon>,
+    private val pokemonList: List<PokemonData>,
     private val fragment : Fragment,
-    private val listener : (Pokemon)->Unit
+    private val listener : (PokemonData)->Unit
 ): RecyclerView.Adapter<PokemonListAdapter.ViewHolder>() {
 
 
-    class ViewHolder(view: View, val listener : (Pokemon) -> Unit, val pokemonList : List<Pokemon>):
+    class ViewHolder(
+        view: View, val listener : (PokemonData) -> Unit,
+        val pokemonList : List<PokemonData>):
         RecyclerView.ViewHolder(view), View.OnClickListener
     {
         val imgPokemon: ImageView
@@ -52,20 +58,41 @@ class PokemonListAdapter(
     }
 
     override fun onBindViewHolder(holder: PokemonListAdapter.ViewHolder, position: Int) {
-        holder.nombre.text = pokemonList[position].name
-        holder.ataque.text = String.format("Attack : %s",pokemonList[position].attack.toString())
-        holder.defensa.text = String.format("Defense : %s",pokemonList[position].defense.toString())
-        holder.vida.text = String.format("HP : %s",pokemonList[position].hp.toString())
-        holder.especial_ata.text = String.format("Especial attack: %s",pokemonList[position].special_attack.toString())
-        holder.especial_def.text = String.format("Especial defense : %s",pokemonList[position].special_defense.toString())
-        Glide.with(fragment)
-            .load(pokemonList[position].img)
-            .fitCenter()
-            .into(holder.imgPokemon)
+
+        PokemonManagerAPI().getPokemonRetrofit(
+            ConseguirCodigo(pokemonList[position].url),
+            { pokemon : Apivarible ->
+                holder.nombre.text = pokemon.name
+                holder.ataque.text = String.format("Attack : %s",pokemon.stats[1].base_stat.toString())
+                holder.defensa.text = String.format("Defense : %s",pokemon.stats[2].base_stat.toString())
+                holder.vida.text = String.format("HP : %s",pokemon.stats[0].base_stat.toString())
+                holder.especial_ata.text = String.format("Especial attack: %s",pokemon.stats[3].base_stat.toString())
+                holder.especial_def.text = String.format("Especial defense : %s",pokemon.stats[4].base_stat.toString())
+                Glide.with(fragment)
+                    .load(pokemon.sprites.front_default)
+                    .fitCenter()
+                    .into(holder.imgPokemon)
+
+            },{
+                    error ->
+                    Toast.makeText(fragment.context, "Error: " + error, Toast.LENGTH_SHORT).show()
+            }
+
+
+
+        )
+
+
     }
 
     override fun getItemCount(): Int {
         return pokemonList.size
+    }
+
+    fun  ConseguirCodigo(a : String):Int{
+        var lista = a.split("/")
+
+        return Integer.parseInt(lista.get(lista.size-2))
     }
 
 

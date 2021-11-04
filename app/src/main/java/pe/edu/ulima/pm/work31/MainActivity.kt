@@ -1,8 +1,10 @@
 package pe.edu.ulima.pm.work31
 
+import android.content.ContentValues.TAG
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -11,6 +13,12 @@ import pe.edu.ulima.pm.work31.fragments.FavoritoFragment
 import pe.edu.ulima.pm.work31.fragments.PokemonDetalleFragment
 import pe.edu.ulima.pm.work31.fragments.PokemonsFragment
 import pe.edu.ulima.pm.work31.model.*
+import pe.edu.ulima.pm.work31.network.APIPokemonService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity(),
     PokemonsFragment.OnPokemonSelectedListener,
@@ -21,8 +29,8 @@ class MainActivity : AppCompatActivity(),
     var a : PokemonManager?= null
     var currentFragment : String?= null
     //pruebas
-    var favoritos = ArrayList<Pokemon>()
-    var pokemones = ArrayList<Pokemon>()
+    var favoritos = ArrayList<PokemonData>()
+
     var numero = 0;
 
 
@@ -38,10 +46,10 @@ class MainActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         //pruebaaa con 60 pokemones
-        CargarPokemones()
+
         //termina la prueba con 60 pokemones
         if(fragments.size == 0){
-            fragments.add(PokemonsFragment(pokemones))
+            fragments.add(PokemonsFragment())
         }
 
         a = PokemonManager().getInstance()
@@ -54,11 +62,12 @@ class MainActivity : AppCompatActivity(),
     }
 
     fun changePokemonFragment(){
-        val fragment = PokemonsFragment(pokemones)
+        val fragment = PokemonsFragment()
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.frlayoutMain,fragment)
         ft.commit()
         currentFragment="listado"
+
     }
 
     fun changeFavoritos(){
@@ -71,90 +80,12 @@ class MainActivity : AppCompatActivity(),
 
 
 
-    //ESTO ES UNA PRUEBA
-
-    fun CargarPokemones(){
-        var link: String? = "https://pokeapi.co/api/v2/pokemon"
-        //prueba con los 60 primeros pokemones
-        var a=0;
-        var aumentador = 0
-        while(a<3) {
-
-            PokemonManagerAPI().getPokemonesRetrofit(aumentador,
-                { respuesta: PokemonRespuesta ->
-
-                    aumentador=aumentador+20
-                    for (i in respuesta.results) {
-
-                        var codigo = ConseguirCodigo(i.url)
-                        PokemonManagerAPI().getPokemonRetrofit(codigo,
-                            { datito: Apivarible ->
-//                                Toast.makeText(this, "RAAA: " + datito.name, Toast.LENGTH_LONG)
-//                                    .show()
-                                agregarPokemonLista(datito)
-                                changePokemonFragment()
-                            },
-                            { error ->
-                                Toast.makeText(this, "Error: " + error, Toast.LENGTH_SHORT).show()
-                            }
-
-                        )
-
-
-                    }
-
-                },
-                { error ->
-                    Toast.makeText(this, "Error: " + error, Toast.LENGTH_SHORT).show()
-                }
-
-
-            )
-
-        a++
-        }
-
-    }
-
-
-
-
-
-    fun agregarPokemonLista(pokemonnuevo: Apivarible){
-        var nuevo = Pokemon(pokemonnuevo.id,
-        pokemonnuevo.sprites.front_default,
-            pokemonnuevo.name,
-            pokemonnuevo.stats.get(0).base_stat,
-
-            pokemonnuevo.stats.get(1).base_stat,
-            pokemonnuevo.stats.get(2).base_stat,
-            pokemonnuevo.stats.get(3).base_stat,
-            pokemonnuevo.stats.get(4).base_stat
-            )
-
-
-        pokemones.add(nuevo)
-    }
-
-    fun  ConseguirCodigo(a : String):Int{
-        var lista = a.split("/")
-
-        return Integer.parseInt(lista.get(lista.size-2))
-    }
-
-
-
-
-
-    //AQUI TERMINA LA PRUEBA
-
-
-    override fun onSelect(pokemon: Pokemon) {
+    override fun onSelect(pokemon: PokemonData) {
 
         changePokemonDetalle(pokemon)
     }
 
-    fun changePokemonDetalle(pokemon: Pokemon){
+    fun changePokemonDetalle(pokemon: PokemonData){
         val fragment = PokemonDetalleFragment(pokemon)
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.frlayoutMain,fragment)
@@ -164,10 +95,10 @@ class MainActivity : AppCompatActivity(),
 
 
 
-    override fun onDelete(pokemon: Pokemon) {
-        favoritos.remove(pokemon)
-        changeFavoritos()
-    }
+//    override fun onDelete(pokemon: PokemonData) {
+//        favoritos.remove(pokemon)
+//        changeFavoritos()
+//    }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
@@ -181,13 +112,20 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    override fun onFavorite(pokemon: Pokemon) {
+    override fun onFavorite(pokemon: PokemonData) {
         if (pokemon in this.favoritos){
             Toast.makeText(this,"Pokemon is already in favorites",Toast.LENGTH_LONG).show()
         }else {
             favoritos.add(pokemon)
             changePokemonFragment()
         }
+    }
+
+
+
+    override fun onDelete(pokemon: PokemonData) {
+        favoritos.remove(pokemon)
+        changeFavoritos()
     }
 
 
