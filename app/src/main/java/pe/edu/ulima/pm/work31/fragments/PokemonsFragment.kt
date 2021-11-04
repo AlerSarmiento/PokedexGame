@@ -1,23 +1,23 @@
 package pe.edu.ulima.pm.work31.fragments
 
 import android.content.Context
-import android.content.res.Configuration
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pe.edu.ulima.pm.work31.R
 import pe.edu.ulima.pm.work31.adapter.PokemonListAdapter
 import pe.edu.ulima.pm.work31.model.*
 
-class PokemonsFragment(): Fragment() {
+class PokemonsFragment(
+    private var sp: SharedPreferences
+): Fragment() {
     interface OnPokemonSelectedListener {
-        fun onSelect(pokemon: PokemonData)
+        fun onSelect(pokemonId: Int)
     }
 
     private var listener : OnPokemonSelectedListener?=null
@@ -50,21 +50,20 @@ class PokemonsFragment(): Fragment() {
 //            Toast.makeText(context,"GG",Toast.LENGTH_LONG).show()
 //        }
 
-        PokemonManagerAPI().getPokemonesRetrofit(30,{ pokedex : PokemonRespuesta ->
+        PokemonManagerAPI(sp).getPokemonesRetrofit(3,{ pokedex : PokemonRespuesta ->
             val recycListadoPokemon= view.findViewById<RecyclerView>(R.id.recycListaPokemons)
             recycListadoPokemon.adapter = PokemonListAdapter(
                 pokedex.results,
-                this
-            ) {
-                    pokemon: PokemonData ->
-                Log.i("PokemonFragment",pokemon.name)
-                listener?.onSelect(pokemon)
+                this,
+                sp
+            ) { pokemonId: Int ->
+                listener?.onSelect(pokemonId)
             }
-
+            println(PokemonManager().getInstance().getPokemones().size)
+            //println(PokemonManager().getInstance().getPokemon(1).name)
         },{
 
         })
-
 
     }
 }

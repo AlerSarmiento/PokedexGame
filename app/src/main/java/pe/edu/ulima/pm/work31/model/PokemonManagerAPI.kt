@@ -1,25 +1,32 @@
 package pe.edu.ulima.pm.work31.model
 
+import android.app.Activity
 import android.content.ContentValues.TAG
+import android.content.SharedPreferences
 import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.core.os.HandlerCompat
+import com.google.gson.Gson
 import pe.edu.ulima.pm.work31.network.APIPokemonService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import com.google.gson.reflect.TypeToken
 
 
-class PokemonManagerAPI {
+
+
+
+class PokemonManagerAPI(var sp: SharedPreferences) {
     val API_URL = "https://pokeapi.co/api/v2/"
 //callbackOK: (List<PokemonData>),
 //    callbackError:(String)
 
 
-
+    // revisar
     fun getPokemonesRetrofit(a:Int, callbackOK : (PokemonRespuesta) -> Unit, callbackError : (String) -> Unit){
 
 
@@ -37,11 +44,10 @@ class PokemonManagerAPI {
                 response: Response<PokemonRespuesta>
             ) {
                 callbackOK(response.body()!!)
+                println("hola")
             }
-
             override fun onFailure(call: Call<PokemonRespuesta>, t: Throwable) {
                 Log.e("PokemonManagerAPI", t.message!!)
-
             }
 
         })
@@ -70,6 +76,20 @@ class PokemonManagerAPI {
                 response: Response<Apivarible>
             ) {
                 callbackOK(response.body()!!)
+                var editor = sp.edit()
+                // Guardamos instancia de pokemonmanager luego de que se hayan cargado todos los pokemons
+                var gson = Gson()
+                var json: String = gson.toJson(PokemonManager().getInstance())
+                println("GUARDANDO")
+                editor.putString("LIST_POKEMONS", json)
+                editor.commit()
+                println("GUARDADOOO")
+                println(PokemonManager().getInstance().getPokemones().size)
+
+                // sacando de LS
+                /*var pm:PokemonManager = gson.fromJson(sp.getString("LIST_POKEMONS",""),
+                    object : TypeToken<PokemonManager?>(){}.type)
+                println(pm.getPokemones().size)*/
             }
 
             override fun onFailure(call: Call<Apivarible>, t: Throwable) {

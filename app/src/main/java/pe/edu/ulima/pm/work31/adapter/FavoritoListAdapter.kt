@@ -1,5 +1,6 @@
 package pe.edu.ulima.pm.work31.adapter
 
+import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,16 +8,20 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import pe.edu.ulima.pm.work31.R
 import pe.edu.ulima.pm.work31.model.Pokemon
 import pe.edu.ulima.pm.work31.model.PokemonData
+import pe.edu.ulima.pm.work31.model.PokemonManager
 
 class FavoritoListAdapter(
-    private val favoritosList : List<PokemonData>,
-    private val listener : (PokemonData)->Unit
+    private val favoritosIds : List<Int>,
+    private val sp: SharedPreferences,
+    private val listener : (Int)->Unit
 ): RecyclerView.Adapter<FavoritoListAdapter.ViewHolder>() {
 
-    class ViewHolder(view: View, val listener : (PokemonData) -> Unit, val favoritosList: List<PokemonData>):
+    class ViewHolder(view: View, val listener : (Int) -> Unit, val favoritosIds: List<Int>):
         RecyclerView.ViewHolder(view), View.OnClickListener
     {
 
@@ -28,7 +33,8 @@ class FavoritoListAdapter(
             delete.setOnClickListener(this)
         }
         override fun onClick(v: View?) {
-            listener(favoritosList[adapterPosition])
+            println("LISTENER: "+adapterPosition)
+            listener(adapterPosition)
         }
     }
 
@@ -37,15 +43,17 @@ class FavoritoListAdapter(
         viewType: Int
     ): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_favorito,parent,false)
-        val viewHolder = FavoritoListAdapter.ViewHolder(view,listener,favoritosList)
+        val viewHolder = FavoritoListAdapter.ViewHolder(view,listener,favoritosIds)
         return viewHolder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.txtNombre.text = favoritosList[position].name
+        // llamando a instancia en storage
+        var pm: PokemonManager = Gson().fromJson(sp.getString("LIST_POKEMONS",""), object : TypeToken<PokemonManager?>(){}.type)
+        holder.txtNombre.text = pm.getPokemon(favoritosIds[position]).name
     }
 
     override fun getItemCount(): Int {
-        return favoritosList.size
+        return favoritosIds.size
     }
 }

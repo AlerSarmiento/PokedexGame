@@ -1,6 +1,7 @@
 package pe.edu.ulima.pm.work31.fragments
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,9 +16,12 @@ import pe.edu.ulima.pm.work31.model.Pokemon
 import pe.edu.ulima.pm.work31.model.PokemonData
 import pe.edu.ulima.pm.work31.model.PokemonManager
 
-class FavoritoFragment(val favoritos: List<PokemonData>):Fragment() {
+class FavoritoFragment(
+    val favoritos: List<Int>,
+    val sp: SharedPreferences
+    ):Fragment() {
     interface OnSelectFavorite{
-        fun onDelete(pokemon: PokemonData)
+        fun onDelete(pokemonId: Int)
     }
 
     private var listener : OnSelectFavorite?=null
@@ -38,15 +42,12 @@ class FavoritoFragment(val favoritos: List<PokemonData>):Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val recycFavoritos= view.findViewById<RecyclerView>(R.id.recycFavoritos)
-
         recycFavoritos.adapter = FavoritoListAdapter(
             favoritos,
-        ) {
-                pokemon: PokemonData ->
-            Log.i("FavoritoFragment",pokemon.name)
-            listener?.onDelete(pokemon)
+            sp,
+        ) { pokemonId: Int ->
+            listener?.onDelete(pokemonId)
         }
 
     }

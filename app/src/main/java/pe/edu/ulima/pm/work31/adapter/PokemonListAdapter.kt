@@ -1,5 +1,7 @@
 package pe.edu.ulima.pm.work31.adapter
 
+import android.content.SharedPreferences
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,20 +13,17 @@ import androidx.recyclerview.widget.RecyclerView
 import pe.edu.ulima.pm.work31.R
 import com.bumptech.glide.Glide
 import pe.edu.ulima.pm.work31.adapter.PokemonListAdapter.ViewHolder
-import pe.edu.ulima.pm.work31.model.Apivarible
-import pe.edu.ulima.pm.work31.model.Pokemon
-import pe.edu.ulima.pm.work31.model.PokemonData
-import pe.edu.ulima.pm.work31.model.PokemonManagerAPI
+import pe.edu.ulima.pm.work31.model.*
 
 class PokemonListAdapter(
     private val pokemonList: List<PokemonData>,
     private val fragment : Fragment,
-    private val listener : (PokemonData)->Unit
+    private val sp: SharedPreferences,
+    private val listener : (Int)->Unit
 ): RecyclerView.Adapter<PokemonListAdapter.ViewHolder>() {
 
-
     class ViewHolder(
-        view: View, val listener : (PokemonData) -> Unit,
+        view: View, val listener : (Int) -> Unit,
         val pokemonList : List<PokemonData>):
         RecyclerView.ViewHolder(view), View.OnClickListener
     {
@@ -47,7 +46,7 @@ class PokemonListAdapter(
             view.setOnClickListener(this)
         }
         override fun onClick(v: View?) {
-            listener(pokemonList[adapterPosition])
+            listener(adapterPosition)
         }
     }
 
@@ -59,28 +58,45 @@ class PokemonListAdapter(
 
     override fun onBindViewHolder(holder: PokemonListAdapter.ViewHolder, position: Int) {
 
-        PokemonManagerAPI().getPokemonRetrofit(
-            ConseguirCodigo(pokemonList[position].url),
-            { pokemon : Apivarible ->
-                holder.nombre.text = pokemon.name
-                holder.ataque.text = String.format("Attack : %s",pokemon.stats[1].base_stat.toString())
-                holder.defensa.text = String.format("Defense : %s",pokemon.stats[2].base_stat.toString())
-                holder.vida.text = String.format("HP : %s",pokemon.stats[0].base_stat.toString())
-                holder.especial_ata.text = String.format("Especial attack: %s",pokemon.stats[3].base_stat.toString())
-                holder.especial_def.text = String.format("Especial defense : %s",pokemon.stats[4].base_stat.toString())
-                Glide.with(fragment)
-                    .load(pokemon.sprites.front_default)
-                    .fitCenter()
-                    .into(holder.imgPokemon)
+        // si está vacío
+        println("LIST POK   "+sp.getString("LIST_POKEMONS",""))
+        if(sp.getString("LIST_POKEMONS","") == ""){
+            println("LOCAL STORAGE VACIO")
+            PokemonManagerAPI(sp).getPokemonRetrofit(
+                ConseguirCodigo(pokemonList[position].url),
+                {pokemon  : Apivarible ->
+                    // guardando pokemon en pokemonmanager
+                    var pokemon2 = Pokemon(
+                        ConseguirCodigo(pokemonList[position].url),
+                        pokemon.sprites.front_default,
+                        pokemon.name,
+                        pokemon.stats[0].base_stat,
+                        pokemon.stats[1].base_stat,
+                        pokemon.stats[2].base_stat,
+                        pokemon.stats[3].base_stat,
+                        pokemon.stats[4].base_stat,
+                    )
+                    PokemonManager().getInstance().addPokemon(pokemon2)
 
-            },{
-                    error ->
+                    holder.nombre.text = pokemon.name
+                    holder.ataque.text = String.format("Attack : %s",pokemon.stats[1].base_stat.toString())
+                    holder.defensa.text = String.format("Defense : %s",pokemon.stats[2].base_stat.toString())
+                    holder.vida.text = String.format("HP : %s",pokemon.stats[0].base_stat.toString())
+                    holder.especial_ata.text = String.format("Especial attack: %s",pokemon.stats[3].base_stat.toString())
+                    holder.especial_def.text = String.format("Especial defense : %s",pokemon.stats[4].base_stat.toString())
+                    Glide.with(fragment)
+                        .load(pokemon.sprites.front_default)
+                        .fitCenter()
+                        .into(holder.imgPokemon)
+
+                },{ error ->
                     Toast.makeText(fragment.context, "Error: " + error, Toast.LENGTH_SHORT).show()
-            }
-
-
-
-        )
+                }
+            )
+        } else {
+            // si está lleno
+            println("******** LOCAL STORAGE NO VACÍO ****************")
+        }
 
 
     }

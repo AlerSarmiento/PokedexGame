@@ -1,6 +1,7 @@
 package pe.edu.ulima.pm.work31.fragments
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,15 +10,17 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import pe.edu.ulima.pm.work31.R
-import pe.edu.ulima.pm.work31.model.Apivarible
-import pe.edu.ulima.pm.work31.model.Pokemon
-import pe.edu.ulima.pm.work31.model.PokemonData
-import pe.edu.ulima.pm.work31.model.PokemonManagerAPI
+import pe.edu.ulima.pm.work31.model.*
 
-class PokemonDetalleFragment(val pokemon: PokemonData): Fragment() {
+class PokemonDetalleFragment(
+    val pokemonId: Int,
+    val sp: SharedPreferences,
+): Fragment() {
     interface OnAddFavorite{
-        fun onFavorite(pokemon: PokemonData)
+        fun onFavorite(pokemonId: Int)
     }
     private var listener : PokemonDetalleFragment.OnAddFavorite?=null
 
@@ -37,39 +40,21 @@ class PokemonDetalleFragment(val pokemon: PokemonData): Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.findViewById<Button>(R.id.agregarfavorito).setOnClickListener {
-            listener?.onFavorite(pokemon)
+            listener?.onFavorite(pokemonId)
         }
-
-        PokemonManagerAPI().getPokemonRetrofit(ConseguirCodigo(pokemon.url),
-            {   dato: Apivarible ->
-
-
-                view.findViewById<TextView>(R.id.nombredetalle).setText(dato.name)
-                view.findViewById<TextView>(R.id.txtAtaque2).setText(String.format("Attack : %s",dato.stats[1].base_stat.toString()))
-                view.findViewById<TextView>(R.id.txtDefensa2).setText(String.format("Defense : %s",dato.stats[2].base_stat.toString()))
-                view.findViewById<TextView>(R.id.txtVida2).setText(String.format("HP : %s",dato.stats[0].base_stat.toString()))
-                view.findViewById<TextView>(R.id.txtEspecial2).setText(String.format("Special attack: %s",dato.stats[3].base_stat.toString()))
-                view.findViewById<TextView>(R.id.txtDefensaEspecial2).setText(String.format("Special defense : %s",dato.stats[4].base_stat.toString()))
-
-                Glide.with(this)
-                    .load(dato.sprites.front_default)
-                    .fitCenter()
-                    .into(view.findViewById(R.id.imagedetalle))
-
-        },{
-
-            })
-
-
-
-
+        var gson = Gson()
+        var pm: PokemonManager = gson.fromJson(sp.getString("LIST_POKEMONS",""),
+            object : TypeToken<PokemonManager?>(){}.type)
+        var pokemon = pm.getPokemon(pokemonId)
+        view.findViewById<TextView>(R.id.nombredetalle).setText(pokemon.name)
+        view.findViewById<TextView>(R.id.txtAtaque2).setText(String.format("Attack : %s",pokemon.attack))
+        view.findViewById<TextView>(R.id.txtDefensa2).setText(String.format("Defense : %s",pokemon.defense))
+        view.findViewById<TextView>(R.id.txtVida2).setText(String.format("HP : %s",pokemon.hp))
+        view.findViewById<TextView>(R.id.txtEspecial2).setText(String.format("Special attack: %s",pokemon.special_attack))
+        view.findViewById<TextView>(R.id.txtDefensaEspecial2).setText(String.format("Special defense : %s",pokemon.special_defense))
+        Glide.with(this)
+            .load(pokemon.img)
+            .fitCenter()
+            .into(view.findViewById(R.id.imagedetalle))
     }
-
-    fun  ConseguirCodigo(a : String):Int{
-        var lista = a.split("/")
-
-        return Integer.parseInt(lista.get(lista.size-2))
-    }
-
-
 }
