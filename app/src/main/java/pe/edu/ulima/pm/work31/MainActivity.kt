@@ -10,8 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import pe.edu.ulima.pm.work31.fragments.FavoritoFragment
 import pe.edu.ulima.pm.work31.fragments.PokemonDetalleFragment
 import pe.edu.ulima.pm.work31.fragments.PokemonsFragment
-import pe.edu.ulima.pm.work31.model.Pokemon
-import pe.edu.ulima.pm.work31.model.PokemonManager
+import pe.edu.ulima.pm.work31.model.*
 
 class MainActivity : AppCompatActivity(),
     PokemonsFragment.OnPokemonSelectedListener,
@@ -21,7 +20,13 @@ class MainActivity : AppCompatActivity(),
     var opcion: String? = null
     var a : PokemonManager?= null
     var currentFragment : String?= null
+    //pruebas
     var favoritos = ArrayList<Pokemon>()
+    var pokemones = ArrayList<Pokemon>()
+    var numero = 0;
+
+
+
 
     private var fragments = ArrayList<Fragment>()
 
@@ -32,9 +37,11 @@ class MainActivity : AppCompatActivity(),
         currentFragment = opcion
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        //pruebaaa con 60 pokemones
+        CargarPokemones()
+        //termina la prueba con 60 pokemones
         if(fragments.size == 0){
-            fragments.add(PokemonsFragment())
+            fragments.add(PokemonsFragment(pokemones))
         }
 
         a = PokemonManager().getInstance()
@@ -47,7 +54,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     fun changePokemonFragment(){
-        val fragment = fragments[0]
+        val fragment = PokemonsFragment(pokemones)
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.frlayoutMain,fragment)
         ft.commit()
@@ -62,7 +69,88 @@ class MainActivity : AppCompatActivity(),
         currentFragment="favoritos"
     }
 
+
+
+    //ESTO ES UNA PRUEBA
+
+    fun CargarPokemones(){
+        var link: String? = "https://pokeapi.co/api/v2/pokemon"
+        //prueba con los 60 primeros pokemones
+        var a=0;
+        var aumentador = 0
+        while(a<3) {
+
+            PokemonManagerAPI().getPokemonesRetrofit(aumentador,
+                { respuesta: PokemonRespuesta ->
+
+                    aumentador=aumentador+20
+                    for (i in respuesta.results) {
+
+                        var codigo = ConseguirCodigo(i.url)
+                        PokemonManagerAPI().getPokemonRetrofit(codigo,
+                            { datito: Apivarible ->
+//                                Toast.makeText(this, "RAAA: " + datito.name, Toast.LENGTH_LONG)
+//                                    .show()
+                                agregarPokemonLista(datito)
+                                changePokemonFragment()
+                            },
+                            { error ->
+                                Toast.makeText(this, "Error: " + error, Toast.LENGTH_SHORT).show()
+                            }
+
+                        )
+
+
+                    }
+
+                },
+                { error ->
+                    Toast.makeText(this, "Error: " + error, Toast.LENGTH_SHORT).show()
+                }
+
+
+            )
+
+        a++
+        }
+
+    }
+
+
+
+
+
+    fun agregarPokemonLista(pokemonnuevo: Apivarible){
+        var nuevo = Pokemon(pokemonnuevo.id,
+        pokemonnuevo.sprites.front_default,
+            pokemonnuevo.name,
+            pokemonnuevo.stats.get(0).base_stat,
+
+            pokemonnuevo.stats.get(1).base_stat,
+            pokemonnuevo.stats.get(2).base_stat,
+            pokemonnuevo.stats.get(3).base_stat,
+            pokemonnuevo.stats.get(4).base_stat
+            )
+
+
+        pokemones.add(nuevo)
+    }
+
+    fun  ConseguirCodigo(a : String):Int{
+        var lista = a.split("/")
+
+        return Integer.parseInt(lista.get(lista.size-2))
+    }
+
+
+
+
+
+    //AQUI TERMINA LA PRUEBA
+
+
     override fun onSelect(pokemon: Pokemon) {
+
         changePokemonDetalle(pokemon)
     }
 

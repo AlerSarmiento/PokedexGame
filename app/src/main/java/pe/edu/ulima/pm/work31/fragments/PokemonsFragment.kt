@@ -16,7 +16,7 @@ import pe.edu.ulima.pm.work31.adapter.PokemonListAdapter
 import pe.edu.ulima.pm.work31.model.Pokemon
 import pe.edu.ulima.pm.work31.model.PokemonManager
 
-class PokemonsFragment: Fragment() {
+class PokemonsFragment(val pokedex: List<Pokemon>): Fragment() {
     interface OnPokemonSelectedListener {
         fun onSelect(pokemon: Pokemon)
     }
@@ -51,10 +51,10 @@ class PokemonsFragment: Fragment() {
 //            Toast.makeText(context,"GG",Toast.LENGTH_LONG).show()
 //        }
 
-        recycListadoPokemon.adapter = PokemonListAdapter(PokemonManager().getInstance().getPokemones(),
+        recycListadoPokemon.adapter = PokemonListAdapter(pokedex,
             this
-            ) {
-            pokemon: Pokemon ->
+        ) {
+                pokemon: Pokemon ->
             Log.i("PokemonFragment",pokemon.name)
             listener?.onSelect(pokemon)
         }
