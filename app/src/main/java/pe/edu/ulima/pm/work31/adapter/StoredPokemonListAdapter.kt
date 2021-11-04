@@ -53,7 +53,7 @@ class StoredPokemonListAdapter(
 
     override fun onBindViewHolder(holder: StoredPokemonListAdapter.ViewHolder, position: Int) {
         println("Llenando con storaged pokemons")
-        holder.nombre.text = pokemonList[position].name
+        holder.nombre.text = pokemonList[position].name.capitalize()
         holder.ataque.text = String.format("Attack : %s",pokemonList[position].attack)
         holder.defensa.text = String.format("Defense : %s",pokemonList[position].defense)
         holder.vida.text = String.format("HP : %s",pokemonList[position].hp)

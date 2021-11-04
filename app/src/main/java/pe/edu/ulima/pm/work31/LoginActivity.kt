@@ -1,7 +1,9 @@
 package pe.edu.ulima.pm.work31
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Window
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -10,6 +12,13 @@ import pe.edu.ulima.pm.work31.fragments.PokemonsFragment
 class LoginActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        supportActionBar?.hide()
+        // DESCOMENTAR PARA LIMPIAR EL STORE
+        /*var sp = getSharedPreferences("POKEMON_INFO", Context.MODE_PRIVATE)
+        var editor = sp.edit()
+        editor.putString("LIST_POKEMONS", "")
+        editor.commit()*/
         setContentView(R.layout.activity_login)
         var btnContinuar : Button = findViewById(R.id.buttonContinuar)
         var btnFavoritos : Button = findViewById(R.id.buttonFavoritos)

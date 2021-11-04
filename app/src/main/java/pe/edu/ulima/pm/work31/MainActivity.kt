@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity(),
 {
     var opcion: String? = null
     var currentFragment : String?= null
-    //pruebas
     lateinit var favoritosIds: ArrayList<Int>
     lateinit var sp: SharedPreferences
     var numero = 0;
@@ -45,6 +44,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     fun changePokemonFragment(){
+        setTitle("Pokémons")
         var fragment:Fragment = PokemonsFragment(sp)
         if(sp.getString("LIST_POKEMONS","")!="") fragment = StoredPokemonsFragment(sp)
         val ft = supportFragmentManager.beginTransaction()
@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     fun changeFavoritos(){
+        setTitle("Favoritos")
         val fragment = FavoritoFragment(favoritosIds,sp)
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.frlayoutMain,fragment)
@@ -76,6 +77,8 @@ class MainActivity : AppCompatActivity(),
     }
 
     fun changePokemonDetalle(pokemonId: Int){
+        var pm: PokemonManager = Gson().fromJson(sp.getString("LIST_POKEMONS",""), object : TypeToken<PokemonManager?>(){}.type)
+        setTitle(pm.getPokemon(pokemonId).name.capitalize())
         val fragment = PokemonDetalleFragment(pokemonId,sp)
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.frlayoutMain,fragment)
@@ -117,5 +120,11 @@ class MainActivity : AppCompatActivity(),
         editor.putString("LIST_FAVORITOS", jsonF)
         editor.commit()
         favoritosIds = Gson().fromJson(sp.getString("LIST_FAVORITOS",""), object : TypeToken<ArrayList<Int>?>(){}.type)
+    }
+    override fun onBackPressed() {
+        if(currentFragment == "detalle") {
+            changePokemonFragment()
+        }
+        else super.onBackPressed()
     }
 }

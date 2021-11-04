@@ -50,7 +50,7 @@ class FavoritoListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         // llamando a instancia en storage
         var pm: PokemonManager = Gson().fromJson(sp.getString("LIST_POKEMONS",""), object : TypeToken<PokemonManager?>(){}.type)
-        holder.txtNombre.text = pm.getPokemon(favoritosIds[position]).name
+        holder.txtNombre.text = pm.getPokemon(favoritosIds[position]).name.capitalize()
     }
 
     override fun getItemCount(): Int {

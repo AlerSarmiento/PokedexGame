@@ -3,109 +3,109 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/gradient_bg">
 
-    <TextView
-        android:id="@+id/nombredetalle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="16dp"
-        android:text="Nombre"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/black"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imagedetalle"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_weight="6"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent">
 
-        tools:srcCompat="@tools:sample/avatars" />
+        <ImageView
+            android:id="@+id/imagedetalle"
+            android:layout_width="match_parent"
+            android:layout_height="380dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_weight="1"
 
-
-    <TextView
-        android:id="@+id/txtVida2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:paddingHorizontal="15dp"
-        android:paddingVertical="8dp"
-        android:text="HP : "
-        android:textColor="@color/black"
-        android:textSize="11sp" />
-    <TextView
-        android:id="@+id/txtAtaque2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:paddingHorizontal="15dp"
-        android:paddingVertical="8dp"
-        android:text="Attack : "
-        android:textColor="@color/black"
-        android:textSize="11sp" />
-    <TextView
-        android:id="@+id/txtDefensa2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:paddingHorizontal="15dp"
-        android:paddingVertical="8dp"
-        android:text="Defense : "
-        android:textColor="@color/black"
-        android:textSize="11sp" />
-    <TextView
-        android:id="@+id/txtEspecial2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:paddingHorizontal="15dp"
-        android:paddingVertical="8dp"
-        android:text="Especial attack : "
-        android:textColor="@color/black"
-        android:textSize="11sp" />
-    <TextView
-        android:id="@+id/txtDefensaEspecial2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:paddingHorizontal="15dp"
-        android:paddingVertical="8dp"
-        android:text="Especial defense : "
-        android:textColor="@color/black"
-        android:textSize="11sp" />
-
-    <Button
-        android:id="@+id/agregarfavorito"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Agregar a favoritos"
-        android:layout_marginBottom="50dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        />
+            tools:srcCompat="@tools:sample/avatars" />
 
 
+        <TextView
+            android:id="@+id/txtVida2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="2"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="4dp"
+            android:text="HP : "
+            android:textColor="@color/black"
+            android:layout_marginStart="25dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-</LinearLayout>
+        <TextView
+            android:layout_weight="2"
+            android:id="@+id/txtAtaque2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="4dp"
+            android:text="Attack : "
+            android:textColor="@color/black"
+            android:layout_marginStart="25dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_weight="2"
+            android:id="@+id/txtDefensa2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="4dp"
+            android:text="Defense : "
+            android:textColor="@color/black"
+            android:layout_marginStart="25dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_weight="2"
+            android:id="@+id/txtEspecial2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="4dp"
+            android:text="Especial attack : "
+            android:textColor="@color/black"
+            android:layout_marginStart="25dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_weight="2"
+            android:id="@+id/txtDefensaEspecial2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="50dp"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="4dp"
+            android:text="Especial defense : "
+            android:textColor="@color/black"
+            android:layout_marginStart="25dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:layout_weight="2"
+            android:id="@+id/agregarfavorito"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="50dp"
+            android:text="Agregar a favoritos" />
+
+
+    </LinearLayout>
 
 
 

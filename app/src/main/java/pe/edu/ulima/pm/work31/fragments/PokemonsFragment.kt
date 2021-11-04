@@ -39,18 +39,8 @@ class PokemonsFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-//        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//            recycListadoPokemon.layoutManager = GridLayoutManager(context, 2)
-//            Toast.makeText(context,"RAAA",Toast.LENGTH_LONG).show()
-//        }
-//        else {
-//            recycListadoPokemon.layoutManager = GridLayoutManager(context, 1)
-//            Toast.makeText(context,"GG",Toast.LENGTH_LONG).show()
-//        }
-
-        PokemonManagerAPI(sp).getPokemonesRetrofit(3,{ pokedex : PokemonRespuesta ->
+        // CAMBIAR CANTIDAD DE POKÉMONS
+        PokemonManagerAPI(sp).getPokemonesRetrofit(6,{ pokedex : PokemonRespuesta ->
             val recycListadoPokemon= view.findViewById<RecyclerView>(R.id.recycListaPokemons)
             recycListadoPokemon.adapter = PokemonListAdapter(
                 pokedex.results,
@@ -60,9 +50,7 @@ class PokemonsFragment(
                 listener?.onSelect(pokemonId)
             }
             println(PokemonManager().getInstance().getPokemones().size)
-            //println(PokemonManager().getInstance().getPokemon(1).name)
         },{
-
         })
 
     }

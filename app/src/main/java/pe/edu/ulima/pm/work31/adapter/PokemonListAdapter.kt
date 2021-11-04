@@ -57,10 +57,6 @@ class PokemonListAdapter(
     }
 
     override fun onBindViewHolder(holder: PokemonListAdapter.ViewHolder, position: Int) {
-
-        // si está vacío
-        println("LIST POK   "+sp.getString("LIST_POKEMONS",""))
-        if(sp.getString("LIST_POKEMONS","") == ""){
             println("LOCAL STORAGE VACIO")
             PokemonManagerAPI(sp).getPokemonRetrofit(
                 ConseguirCodigo(pokemonList[position].url),
@@ -78,7 +74,7 @@ class PokemonListAdapter(
                     )
                     PokemonManager().getInstance().addPokemon(pokemon2)
 
-                    holder.nombre.text = pokemon.name
+                    holder.nombre.text = pokemon.name.capitalize()
                     holder.ataque.text = String.format("Attack : %s",pokemon.stats[1].base_stat.toString())
                     holder.defensa.text = String.format("Defense : %s",pokemon.stats[2].base_stat.toString())
                     holder.vida.text = String.format("HP : %s",pokemon.stats[0].base_stat.toString())
@@ -93,12 +89,6 @@ class PokemonListAdapter(
                     Toast.makeText(fragment.context, "Error: " + error, Toast.LENGTH_SHORT).show()
                 }
             )
-        } else {
-            // si está lleno
-            println("******** LOCAL STORAGE NO VACÍO ****************")
-        }
-
-
     }
 
     override fun getItemCount(): Int {

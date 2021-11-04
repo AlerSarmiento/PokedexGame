@@ -46,7 +46,6 @@ class PokemonDetalleFragment(
         var pm: PokemonManager = gson.fromJson(sp.getString("LIST_POKEMONS",""),
             object : TypeToken<PokemonManager?>(){}.type)
         var pokemon = pm.getPokemon(pokemonId)
-        view.findViewById<TextView>(R.id.nombredetalle).setText(pokemon.name)
         view.findViewById<TextView>(R.id.txtAtaque2).setText(String.format("Attack : %s",pokemon.attack))
         view.findViewById<TextView>(R.id.txtDefensa2).setText(String.format("Defense : %s",pokemon.defense))
         view.findViewById<TextView>(R.id.txtVida2).setText(String.format("HP : %s",pokemon.hp))
