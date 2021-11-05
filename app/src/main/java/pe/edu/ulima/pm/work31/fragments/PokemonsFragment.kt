@@ -40,7 +40,7 @@ class PokemonsFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // CAMBIAR CANTIDAD DE POKÉMONS
-        PokemonManagerAPI(sp).getPokemonesRetrofit(20,{ pokedex : PokemonRespuesta ->
+        PokemonManagerAPI(sp).getPokemonesRetrofit(200,{ pokedex : PokemonRespuesta ->
             val recycListadoPokemon= view.findViewById<RecyclerView>(R.id.recycListaPokemons)
             recycListadoPokemon.adapter = PokemonListAdapter(
                 pokedex.results,

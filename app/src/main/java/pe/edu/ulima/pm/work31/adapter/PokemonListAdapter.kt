@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import pe.edu.ulima.pm.work31.R
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import pe.edu.ulima.pm.work31.adapter.PokemonListAdapter.ViewHolder
 import pe.edu.ulima.pm.work31.model.*
 
@@ -57,22 +58,34 @@ class PokemonListAdapter(
     }
 
     override fun onBindViewHolder(holder: PokemonListAdapter.ViewHolder, position: Int) {
+
+        if(position == 0){
+           for(i in 1..200){
+               PokemonManagerAPI(sp).getPokemonRetrofit(
+                   i,
+                   {pokemon  : Apivarible ->
+                       // guardando pokemon en pokemonmanager
+                       var pokemon2 = Pokemon(
+                           i,
+                           pokemon.sprites.front_default,
+                           pokemon.name,
+                           pokemon.stats[0].base_stat,
+                           pokemon.stats[1].base_stat,
+                           pokemon.stats[2].base_stat,
+                           pokemon.stats[3].base_stat,
+                           pokemon.stats[4].base_stat,
+                       )
+                       PokemonManager().getInstance().addPokemon(pokemon2)
+                   },{ error ->
+                       Toast.makeText(fragment.context, "Error: " + error, Toast.LENGTH_SHORT).show()
+                   }
+               )
+           }
+        }
+            println(ConseguirCodigo(pokemonList[position].url))
             PokemonManagerAPI(sp).getPokemonRetrofit(
                 ConseguirCodigo(pokemonList[position].url),
                 {pokemon  : Apivarible ->
-                    // guardando pokemon en pokemonmanager
-                    var pokemon2 = Pokemon(
-                        ConseguirCodigo(pokemonList[position].url),
-                        pokemon.sprites.front_default,
-                        pokemon.name,
-                        pokemon.stats[0].base_stat,
-                        pokemon.stats[1].base_stat,
-                        pokemon.stats[2].base_stat,
-                        pokemon.stats[3].base_stat,
-                        pokemon.stats[4].base_stat,
-                    )
-                    PokemonManager().getInstance().addPokemon(pokemon2)
-
                     holder.nombre.text = pokemon.name.capitalize()
                     holder.ataque.text = String.format("Attack : %s",pokemon.stats[1].base_stat.toString())
                     holder.defensa.text = String.format("Defense : %s",pokemon.stats[2].base_stat.toString())
