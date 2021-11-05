@@ -14,11 +14,6 @@ class LoginActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         supportActionBar?.hide()
-        // DESCOMENTAR PARA LIMPIAR EL STORE
-        /*var sp = getSharedPreferences("POKEMON_INFO", Context.MODE_PRIVATE)
-        var editor = sp.edit()
-        editor.putString("LIST_POKEMONS", "")
-        editor.commit()*/
         setContentView(R.layout.activity_login)
         var btnContinuar : Button = findViewById(R.id.buttonContinuar)
         var btnFavoritos : Button = findViewById(R.id.buttonFavoritos)

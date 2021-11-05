@@ -27,7 +27,6 @@ class MainActivity : AppCompatActivity(),
     var currentFragment : String?= null
     lateinit var favoritosIds: ArrayList<Int>
     lateinit var sp: SharedPreferences
-    var numero = 0;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         sp = getSharedPreferences("POKEMON_INFO", Context.MODE_PRIVATE)
@@ -37,10 +36,8 @@ class MainActivity : AppCompatActivity(),
         currentFragment = opcion
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         if(currentFragment=="listado") changePokemonFragment()
         if(currentFragment=="favoritos") changeFavoritos()
-
     }
 
     fun changePokemonFragment(){
@@ -51,7 +48,6 @@ class MainActivity : AppCompatActivity(),
         ft.replace(R.id.frlayoutMain,fragment)
         ft.commit()
         currentFragment="listado"
-
     }
 
     fun changeFavoritos(){
@@ -60,19 +56,14 @@ class MainActivity : AppCompatActivity(),
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.frlayoutMain,fragment)
         ft.commit()
-        println("cambiado a favoritos")
         currentFragment="favoritos"
     }
 
-
-
     override fun onSelect(pokemonId: Int) {
-
         changePokemonDetalle(pokemonId)
     }
 
     override fun onSelect2(pokemonId: Int) {
-
         changePokemonDetalle(pokemonId)
     }
 

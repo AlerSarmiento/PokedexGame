@@ -24,11 +24,18 @@ class PokemonManager {
     }
 
     fun addPokemon(pokemon: Pokemon){
-        mPokemones.add(pokemon)
+        var flag = true
+        for (i in mPokemones){
+            if(i.id == pokemon.id) flag = false
+        }
+        if (flag) mPokemones.add(pokemon)
     }
 
     fun getPokemon(id: Int): Pokemon{
-        return mPokemones[id]
+        for (i in mPokemones){
+            if(i.id == (id+1)) return i
+        }
+        return mPokemones[0]
     }
 
 

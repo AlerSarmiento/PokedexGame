@@ -41,14 +41,12 @@ class StoredPokemonsFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-            println("EN STOREDPOKEMONSFRAGMENT")
             var gson = Gson()
             var pm:PokemonManager = gson.fromJson(sp.getString("LIST_POKEMONS",""),
                 object : TypeToken<PokemonManager?>(){}.type)
-            println(pm.getPokemones().size)
             val recycListadoPokemon= view.findViewById<RecyclerView>(R.id.recycListaPokemons)
             recycListadoPokemon.adapter = StoredPokemonListAdapter(
-                pm.getPokemones(),
+                pm.getPokemones().sortedBy { it.id },
                 this
             ) { pokemonId: Int ->
                 listener?.onSelect2(pokemonId)

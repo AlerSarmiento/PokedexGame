@@ -33,7 +33,6 @@ class FavoritoListAdapter(
             delete.setOnClickListener(this)
         }
         override fun onClick(v: View?) {
-            println("LISTENER: "+adapterPosition)
             listener(adapterPosition)
         }
     }

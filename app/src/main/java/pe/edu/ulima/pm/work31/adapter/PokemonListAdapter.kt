@@ -57,7 +57,6 @@ class PokemonListAdapter(
     }
 
     override fun onBindViewHolder(holder: PokemonListAdapter.ViewHolder, position: Int) {
-            println("LOCAL STORAGE VACIO")
             PokemonManagerAPI(sp).getPokemonRetrofit(
                 ConseguirCodigo(pokemonList[position].url),
                 {pokemon  : Apivarible ->

@@ -44,7 +44,6 @@ class PokemonManagerAPI(var sp: SharedPreferences) {
                 response: Response<PokemonRespuesta>
             ) {
                 callbackOK(response.body()!!)
-                println("hola")
             }
             override fun onFailure(call: Call<PokemonRespuesta>, t: Throwable) {
                 Log.e("PokemonManagerAPI", t.message!!)
@@ -80,16 +79,8 @@ class PokemonManagerAPI(var sp: SharedPreferences) {
                 // Guardamos instancia de pokemonmanager luego de que se hayan cargado todos los pokemons
                 var gson = Gson()
                 var json: String = gson.toJson(PokemonManager().getInstance())
-                println("GUARDANDO")
                 editor.putString("LIST_POKEMONS", json)
                 editor.commit()
-                println("GUARDADOOO")
-                println(PokemonManager().getInstance().getPokemones().size)
-
-                // sacando de LS
-                /*var pm:PokemonManager = gson.fromJson(sp.getString("LIST_POKEMONS",""),
-                    object : TypeToken<PokemonManager?>(){}.type)
-                println(pm.getPokemones().size)*/
             }
 
             override fun onFailure(call: Call<Apivarible>, t: Throwable) {
