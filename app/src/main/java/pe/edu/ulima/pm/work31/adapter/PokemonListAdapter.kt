@@ -17,15 +17,15 @@ import pe.edu.ulima.pm.work31.adapter.PokemonListAdapter.ViewHolder
 import pe.edu.ulima.pm.work31.model.*
 
 class PokemonListAdapter(
-    private val pokemonList: List<PokemonData>,
+    private val pokemonList: List<Pokemon>,
     private val fragment : Fragment,
-    private val sp: SharedPreferences,
+    /*private val sp: SharedPreferences*/
     private val listener : (Int)->Unit
 ): RecyclerView.Adapter<PokemonListAdapter.ViewHolder>() {
 
     class ViewHolder(
         view: View, val listener : (Int) -> Unit,
-        val pokemonList : List<PokemonData>):
+        val pokemonList : List<Pokemon>):
         RecyclerView.ViewHolder(view), View.OnClickListener
     {
         val imgPokemon: ImageView
@@ -47,7 +47,7 @@ class PokemonListAdapter(
             view.setOnClickListener(this)
         }
         override fun onClick(v: View?) {
-            listener(adapterPosition)
+            listener(adapterPosition+1)
         }
     }
 
@@ -58,9 +58,21 @@ class PokemonListAdapter(
     }
 
     override fun onBindViewHolder(holder: PokemonListAdapter.ViewHolder, position: Int) {
+        PokemonManager().getPokemonById(position+1) {
+            holder.nombre.text = it.name.capitalize()
+            holder.ataque.text = String.format("Attack : %s",it.attack.toString())
+            holder.defensa.text = String.format("Defense : %s",it.defense.toString())
+            holder.vida.text = String.format("HP : %s",it.hp.toString())
+            holder.especial_ata.text = String.format("Special attack: %s",it.special_attack.toString())
+            holder.especial_def.text = String.format("Special defense : %s",it.special_defense.toString())
+            Glide.with(fragment)
+                .load(it.img)
+                .fitCenter()
+                .into(holder.imgPokemon)
+        }
 
-        if(position == 0){
-           for(i in 1..200){
+        /*if(position == 0){
+           for(i in 1..50){
                PokemonManagerAPI(sp).getPokemonRetrofit(
                    i,
                    {pokemon  : Apivarible ->
@@ -100,14 +112,14 @@ class PokemonListAdapter(
                 },{ error ->
                     Toast.makeText(fragment.context, "Error: " + error, Toast.LENGTH_SHORT).show()
                 }
-            )
+            )*/
     }
 
     override fun getItemCount(): Int {
         return pokemonList.size
     }
 
-    fun  ConseguirCodigo(a : String):Int{
+    fun ConseguirCodigo(a : String):Int{
         var lista = a.split("/")
 
         return Integer.parseInt(lista.get(lista.size-2))

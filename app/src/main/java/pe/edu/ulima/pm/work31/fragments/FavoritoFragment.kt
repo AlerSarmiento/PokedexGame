@@ -17,8 +17,7 @@ import pe.edu.ulima.pm.work31.model.PokemonData
 import pe.edu.ulima.pm.work31.model.PokemonManager
 
 class FavoritoFragment(
-    val favoritos: List<Int>,
-    val sp: SharedPreferences
+    val favoritos: List<Int>
     ):Fragment() {
     interface OnSelectFavorite{
         fun onDelete(pokemonId: Int)
@@ -44,10 +43,10 @@ class FavoritoFragment(
         super.onViewCreated(view, savedInstanceState)
         val recycFavoritos= view.findViewById<RecyclerView>(R.id.recycFavoritos)
         recycFavoritos.adapter = FavoritoListAdapter(
-            favoritos,
-            sp,
+            favoritos
         ) { pokemonId: Int ->
-            listener?.onDelete(pokemonId)
+            listener?.onDelete(favoritos[pokemonId])
+            Log.e("MENSAJE 2", favoritos[pokemonId].toString())
         }
 
     }

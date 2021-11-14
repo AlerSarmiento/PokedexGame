@@ -16,8 +16,7 @@ import pe.edu.ulima.pm.work31.R
 import pe.edu.ulima.pm.work31.model.*
 
 class PokemonDetalleFragment(
-    val pokemonId: Int,
-    val sp: SharedPreferences,
+    val pokemon: Pokemon
 ): Fragment() {
     interface OnAddFavorite{
         fun onFavorite(pokemonId: Int)
@@ -40,12 +39,12 @@ class PokemonDetalleFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.findViewById<Button>(R.id.agregarfavorito).setOnClickListener {
-            listener?.onFavorite(pokemonId)
+            listener?.onFavorite(pokemon.id)
         }
-        var gson = Gson()
+        /*var gson = Gson()
         var pm: PokemonManager = gson.fromJson(sp.getString("LIST_POKEMONS",""),
             object : TypeToken<PokemonManager?>(){}.type)
-        var pokemon = pm.getPokemon(pokemonId)
+        var pokemon = pm.getPokemon(pokemonId)*/
         view.findViewById<TextView>(R.id.txtAtaque2).setText(String.format("Attack : %s",pokemon.attack))
         view.findViewById<TextView>(R.id.txtDefensa2).setText(String.format("Defense : %s",pokemon.defense))
         view.findViewById<TextView>(R.id.txtVida2).setText(String.format("HP : %s",pokemon.hp))

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "700225088622",
+    "project_id": "pokeapp-2021-2",
+    "storage_bucket": "pokeapp-2021-2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:700225088622:android:288ac5ed39e6ed51ee0a7f",
+        "android_client_info": {
+          "package_name": "pe.edu.ulima.pm.work31"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "700225088622-tfmrsbbutel6u0o9ir98ckgu05m52ebp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPDg06Z8C1QtufesDMC4F1mrKI-XNJDEw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "700225088622-tfmrsbbutel6u0o9ir98ckgu05m52ebp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

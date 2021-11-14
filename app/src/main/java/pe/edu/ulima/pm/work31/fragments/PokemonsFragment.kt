@@ -14,7 +14,7 @@ import pe.edu.ulima.pm.work31.adapter.PokemonListAdapter
 import pe.edu.ulima.pm.work31.model.*
 
 class PokemonsFragment(
-    private var sp: SharedPreferences
+    /*private var sp: SharedPreferences*/
 ): Fragment() {
     interface OnPokemonSelectedListener {
         fun onSelect(pokemonId: Int)
@@ -40,7 +40,18 @@ class PokemonsFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // CAMBIAR CANTIDAD DE POKÉMONS
-        PokemonManagerAPI(sp).getPokemonesRetrofit(200,{ pokedex : PokemonRespuesta ->
+        PokemonManager().getPokemonsFirebase({
+            val recycListadoPokemon= view.findViewById<RecyclerView>(R.id.recycListaPokemons)
+            recycListadoPokemon.adapter = PokemonListAdapter(it, this) {
+                pokemonId: Int ->
+                listener?.onSelect(pokemonId)
+            }
+        }, {
+
+        })
+
+
+        /*PokemonManagerAPI(sp).getPokemonesRetrofit(50,{ pokedex : PokemonRespuesta ->
             val recycListadoPokemon= view.findViewById<RecyclerView>(R.id.recycListaPokemons)
             recycListadoPokemon.adapter = PokemonListAdapter(
                 pokedex.results,
@@ -49,7 +60,7 @@ class PokemonsFragment(
             ) { pokemonId: Int ->
                 listener?.onSelect(pokemonId)
             } },{
-        })
+        })*/
 
     }
 }

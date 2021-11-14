@@ -20,7 +20,7 @@ import com.google.gson.reflect.TypeToken
 
 
 
-class PokemonManagerAPI(var sp: SharedPreferences) {
+class PokemonManagerAPI(/*var sp: SharedPreferences*/) {
     val API_URL = "https://pokeapi.co/api/v2/"
 //callbackOK: (List<PokemonData>),
 //    callbackError:(String)
@@ -75,12 +75,12 @@ class PokemonManagerAPI(var sp: SharedPreferences) {
                 response: Response<Apivarible>
             ) {
                 callbackOK(response.body()!!)
-                var editor = sp.edit()
+                /*var editor = sp.edit()
                 // Guardamos instancia de pokemonmanager luego de que se hayan cargado todos los pokemons
                 var gson = Gson()
                 var json: String = gson.toJson(PokemonManager().getInstance())
                 editor.putString("LIST_POKEMONS", json)
-                editor.commit()
+                editor.commit()*/
             }
 
             override fun onFailure(call: Call<Apivarible>, t: Throwable) {

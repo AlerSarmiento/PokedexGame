@@ -1,6 +1,7 @@
 package pe.edu.ulima.pm.work31.adapter
 
 import android.content.SharedPreferences
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +18,7 @@ import pe.edu.ulima.pm.work31.model.PokemonManager
 
 class FavoritoListAdapter(
     private val favoritosIds : List<Int>,
-    private val sp: SharedPreferences,
+    /*private val sp: SharedPreferences,*/
     private val listener : (Int)->Unit
 ): RecyclerView.Adapter<FavoritoListAdapter.ViewHolder>() {
 
@@ -34,6 +35,7 @@ class FavoritoListAdapter(
         }
         override fun onClick(v: View?) {
             listener(adapterPosition)
+            Log.e("MENSAJE", adapterPosition.toString())
         }
     }
 
@@ -47,9 +49,13 @@ class FavoritoListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        PokemonManager().getPokemonById(favoritosIds[position]) {
+            holder.txtNombre.text = it.name
+        }
         // llamando a instancia en storage
-        var pm: PokemonManager = Gson().fromJson(sp.getString("LIST_POKEMONS",""), object : TypeToken<PokemonManager?>(){}.type)
-        holder.txtNombre.text = pm.getPokemon(favoritosIds[position]).name.capitalize()
+        /*var pm: PokemonManager = Gson().fromJson(sp.getString("LIST_POKEMONS",""), object : TypeToken<PokemonManager?>(){}.type)*/
+
+        //holder.txtNombre.text = pm.getPokemon(favoritosIds[position]).name.capitalize()
     }
 
     override fun getItemCount(): Int {

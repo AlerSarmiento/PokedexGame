@@ -3,17 +3,11 @@ package pe.edu.ulima.pm.work31.fragments
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import pe.edu.ulima.pm.work31.R
-import pe.edu.ulima.pm.work31.adapter.StoredPokemonListAdapter
-import pe.edu.ulima.pm.work31.model.*
 
 class StoredPokemonsFragment(
     private var sp: SharedPreferences
@@ -40,7 +34,7 @@ class StoredPokemonsFragment(
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        /*super.onViewCreated(view, savedInstanceState)
             var gson = Gson()
             var pm:PokemonManager = gson.fromJson(sp.getString("LIST_POKEMONS",""),
                 object : TypeToken<PokemonManager?>(){}.type)
@@ -50,7 +44,7 @@ class StoredPokemonsFragment(
                 this
             ) { pokemonId: Int ->
                 listener?.onSelect2(pokemonId)
-            }
+            }*/
 
     }
 }
