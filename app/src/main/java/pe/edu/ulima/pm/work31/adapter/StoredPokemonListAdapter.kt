@@ -59,7 +59,7 @@ class StoredPokemonListAdapter(
         holder.especial_ata.text = String.format("Special attack: %s",pokemonList[position].special_attack)
         holder.especial_def.text = String.format("Special defense : %s",pokemonList[position].special_defense)
         Glide.with(fragment)
-            .load(pokemonList[position].img)
+            .load(pokemonList[position].imagen)
             .fitCenter()
             .into(holder.imgPokemon)
     }

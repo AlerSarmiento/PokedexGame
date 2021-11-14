@@ -29,13 +29,18 @@ class MainActivity : AppCompatActivity(),
     lateinit var sp: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         sp = getSharedPreferences("POKEMON_INFO", Context.MODE_PRIVATE)
         if(sp.getString("LIST_FAVORITOS","")=="") favoritosIds = ArrayList<Int>()
         else favoritosIds = Gson().fromJson(sp.getString("LIST_FAVORITOS",""), object : TypeToken<ArrayList<Int>?>(){}.type)
+
+
         opcion = intent.getBundleExtra("dataopcion")?.getString("opcion")
         currentFragment = opcion
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
         if(currentFragment=="listado") changePokemonFragment()
         if(currentFragment=="favoritos") changeFavoritos()
     }

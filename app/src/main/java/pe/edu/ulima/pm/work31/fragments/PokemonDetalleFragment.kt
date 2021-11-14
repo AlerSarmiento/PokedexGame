@@ -52,7 +52,7 @@ class PokemonDetalleFragment(
         view.findViewById<TextView>(R.id.txtEspecial2).setText(String.format("Special attack: %s",pokemon.special_attack))
         view.findViewById<TextView>(R.id.txtDefensaEspecial2).setText(String.format("Special defense : %s",pokemon.special_defense))
         Glide.with(this)
-            .load(pokemon.img)
+            .load(pokemon.imagen)
             .fitCenter()
             .into(view.findViewById(R.id.imagedetalle))
     }

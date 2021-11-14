@@ -17,7 +17,7 @@ class PokemonsFragment(
     private var sp: SharedPreferences
 ): Fragment() {
     interface OnPokemonSelectedListener {
-        fun onSelect(pokemonId: Int)
+        fun onSelect(pokemonId: Pokemon)
     }
 
     private var listener : OnPokemonSelectedListener?=null
@@ -40,16 +40,33 @@ class PokemonsFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // CAMBIAR CANTIDAD DE POKÉMONS
-        PokemonManagerAPI(sp).getPokemonesRetrofit(200,{ pokedex : PokemonRespuesta ->
-            val recycListadoPokemon= view.findViewById<RecyclerView>(R.id.recycListaPokemons)
+
+
+
+//        PokemonManagerAPI(sp).getPokemonesRetrofit(251,{ pokedex : PokemonRespuesta ->
+//            val recycListadoPokemon= view.findViewById<RecyclerView>(R.id.recycListaPokemons)
+//            recycListadoPokemon.adapter = PokemonListAdapter(
+//                pokedex.results,
+//                this,
+//                sp
+//            ) { pokemonId: Int ->
+//                listener?.onSelect(pokemonId)
+//            } },{
+//        })
+
+        PokemonManagerAPI(requireActivity().applicationContext).getPokemonesFirebase({ pokedex: List<Pokemon> ->
+            val recycListadoPokemon = view.findViewById<RecyclerView>(R.id.recycListaPokemons)
             recycListadoPokemon.adapter = PokemonListAdapter(
-                pokedex.results,
-                this,
-                sp
-            ) { pokemonId: Int ->
-                listener?.onSelect(pokemonId)
-            } },{
-        })
+                pokedex,
+                this
+            ) { pokemon: Pokemon ->
+                listener?.onSelect(pokemon)
+            }
+        }
+
+        ,{}
+
+        )
 
     }
 }
